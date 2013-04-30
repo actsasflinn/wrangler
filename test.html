@@ -1,0 +1,50 @@
+<html>
+<head>
+<title>Capture Test</title>
+<script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="c.js"></script>
+<script type="text/javascript" src="c_config.js"></script>
+<style type="text/css">
+  input.red, select.red, a.red, button.red { border:2px solid red; };
+</style>
+</head>
+<body>
+  <div id="header">
+    <h1>Capture Test</h1>
+  </div>
+  <div id="container">
+    <div id="page1">
+      <form id="test">
+        <label for="foo">Foo</label>
+        <input type="text" id="foo" /><br />
+        <label for="bar">Bar</label>
+        <select id="bar">
+          <option>baz</option>
+          <option>bat</option>
+        </select><br />
+        <a href="#page1" onclick="$('#test').append('<br /><label for=\'new\'>New</label><input type=\'text\' id=\'new\' />');return false">New</a> |
+        <button id="btn1" onclick="$('#page1').hide();$('#page2').show();return false">Submit</button>
+      </form>
+    </div>
+    <div id="page2" style="display:none">
+      <form id="test2">
+        <label>Something</label>
+        <textarea id="something">Something</textarea>
+        <br />
+        <label for="rdo">Radio</label>
+        <input type="radio" value="1" name="rdo" id="rdo[1]" />
+        <input type="radio" value="2" name="rdo" id="rdo[2]" />
+        <a href="#page1" onclick="$('#page2').hide();$('#page1').show();return false">Home</a>
+      </form>
+    </div>
+  </div>
+  <script type="javascript">
+    c.path("/capture")
+    c.meta("server_time","2012-11-03 21:00:00 EDT")
+    c.meta("user","foo")
+    c.meta("state","CT")
+    c.meta("account","bar")
+    c.meta("browser","Safari")
+  </script>
+</body>
+</html>

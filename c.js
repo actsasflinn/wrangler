@@ -8,7 +8,7 @@ if (typeof Capture === "undefined") {
     var push = function(data) {
       if (typeof(data) != "object") data = { "data": data };
       if (!data['id'])     data['id']     = uniq();
-      if (!data['offset']) data['offset'] = (new Date().getTime() / 1000);
+      if (!data['offset']) data['offset'] = timeStamp();
       q.push(data);
     }
 
@@ -87,7 +87,7 @@ if (typeof Capture === "undefined") {
              data:   $(el).html(),
              x:      el.pageX,
              y:      el.pageY,
-             offset: (new Date().getTime() / 1000) });
+             offset: timeStamp() });
     }
 
     var id_el = function(el){
@@ -127,7 +127,7 @@ if (typeof Capture === "undefined") {
              data:   data,
              x:      ev.pageX,
              y:      ev.pageY,
-             offset: ev.timeStamp });
+             offset: timeStamp(ev.timeStamp) });
     };
 
     var click_callback = function(ev){
@@ -139,7 +139,7 @@ if (typeof Capture === "undefined") {
              data:   data,
              x:      ev.pageX,
              y:      ev.pageY,
-             offset: ev.timeStamp });
+             offset: timeStamp(ev.timeStamp) });
     };
 
     var which_callback = function(ev) {
@@ -150,7 +150,7 @@ if (typeof Capture === "undefined") {
              path:   path_to(ev.target),
              data:   data,
              which:  ev.which,
-             offset: ev.timeStamp });
+             offset: timeStamp(ev.timeStamp) });
     };
 
     var form_callback = function(ev) {
@@ -162,7 +162,7 @@ if (typeof Capture === "undefined") {
              data:   data,
              x:      ev.pageX,
              y:      ev.pageY,
-             offset: ev.timeStamp });
+             offset: timeStamp(ev.timeStamp) });
     };
 
     var location = function(ev) {
@@ -198,6 +198,11 @@ if (typeof Capture === "undefined") {
       $().ready(callback);
     };
 
+    var timeStamp = function(time) {
+      if (typeof(time) != 'number') time = new Date().getTime();
+      return time / 1000;
+    }
+
     /*
       public interface
     */
@@ -212,9 +217,12 @@ if (typeof Capture === "undefined") {
       hash_change:hash_change,
       path:path,
       meta:meta,
-      click:click_callback, change:default_callback,
-      mousedown: which_callback, keydown:which_callback,
-      focusin: form_callback
+      click:click_callback,
+      change:default_callback,
+      mousedown: which_callback,
+      keydown:which_callback,
+      focusin: form_callback,
+      time: time,
     };
 
     // sync any queued data before unloading the page
@@ -224,7 +232,7 @@ if (typeof Capture === "undefined") {
              target: 'beforeunload',
              path:   'window',
              data:   window.location.href,
-             offset: ev.timeStamp });
+             offset: timeStamp(ev.timeStamp) });
 
       sync(false);
     };

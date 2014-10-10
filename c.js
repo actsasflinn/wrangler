@@ -8,7 +8,7 @@ if (typeof Capture === "undefined") {
     var push = function(data) {
       if (typeof(data) != "object") data = { "data": data };
       if (!data['id'])     data['id']     = uniq();
-      if (!data['offset']) data['offset'] = new Date().getTime();
+      if (!data['offset']) data['offset'] = (new Date().getTime() / 1000);
       q.push(data);
     }
 
@@ -87,7 +87,7 @@ if (typeof Capture === "undefined") {
              data:   $(el).html(),
              x:      el.pageX,
              y:      el.pageY,
-             offset: new Date().getTime() });
+             offset: (new Date().getTime() / 1000) });
     }
 
     var id_el = function(el){
